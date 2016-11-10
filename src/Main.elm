@@ -15,15 +15,14 @@ main =
 
 
 type alias Model =
-    { challenges : List Challenge
+    { challenge : Challenge
+    , answer : List Int
     }
 
 
 type alias Challenge =
-    { name : String
-    , goldilock : Goldilock
+    { goldilock : Goldilock
     , chairs : List ( Int, Chair )
-    , answer : List Int
     }
 
 
@@ -41,15 +40,10 @@ type alias Chair =
 
 startingModel : Model
 startingModel =
-    { challenges =
-        [ sampleChallenge ]
+    { challenge =
+        parseChallenge "100 80\n30 50\n130 75\n90 60\n150 85\n120 70\n200 200\n110 100"
+    , answer = []
     }
-
-
-sampleChallenge =
-    "100 80\n30 50\n130 75\n90 60\n150 85\n120 70\n200 200\n110 100"
-        |> getChallenge "Sample"
-        |> getAnswer
 
 
 parseGoldilock : String -> Goldilock
@@ -105,34 +99,28 @@ parseChair chair =
             }
 
 
-getChallenge : String -> String -> Challenge
-getChallenge name values =
+parseChallenge : String -> Challenge
+parseChallenge values =
     case String.lines values of
         [] ->
-            { name = name
-            , goldilock = parseGoldilock ""
+            { goldilock = parseGoldilock ""
             , chairs = parseChairs []
-            , answer = []
             }
 
         [ goldilock ] ->
-            { name = name
-            , goldilock = parseGoldilock goldilock
+            { goldilock = parseGoldilock goldilock
             , chairs = parseChairs []
-            , answer = []
             }
 
         goldilock :: chairs ->
-            { name = name
-            , goldilock = parseGoldilock goldilock
+            { goldilock = parseGoldilock goldilock
             , chairs = parseChairs chairs
-            , answer = []
             }
 
 
-getAnswer : Challenge -> Challenge
+getAnswer : Challenge -> List Int
 getAnswer challenge =
-    { challenge | answer = getAnseerChairs challenge.goldilock challenge.chairs }
+    getAnseerChairs challenge.goldilock challenge.chairs
 
 
 getAnseerChairs : Goldilock -> List ( Int, Chair ) -> List Int
