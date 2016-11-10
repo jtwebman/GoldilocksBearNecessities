@@ -1,0 +1,3 @@
+[build]
+  command = "elm-make Main.elm --output dist/index.html"
+  publish = "dist"
