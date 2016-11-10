@@ -2,6 +2,8 @@
 
 I am learning the Elm programming language. Here is my first Elm project based on the [Reddit Daily Programmer Challenge # 297](https://www.reddit.com/r/dailyprogrammer/comments/5bn0b7/20161107_challenge_291_easy_goldilocks_bear/) with tests.
 
+See it running here: [goldilocks-bear-necessities.netlify.com](http://goldilocks-bear-necessities.netlify.com/)
+
 ## Challenge
 
 Once upon a time, there lived an adventurous little girl called Goldilocks. She explored the world with abandon, having a lot of fun. During her latest foray into the woods, she found another bear home -- though this one is home to many more bears. Having learned from her previous experiences, Goldilocks knows that trial and error is not an efficient way of finding the right chair and porridge to help herself to.
