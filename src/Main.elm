@@ -40,10 +40,13 @@ type alias Chair =
 
 startingModel : Model
 startingModel =
-    { challenge =
-        parseChallenge "100 80\n30 50\n130 75\n90 60\n150 85\n120 70\n200 200\n110 100"
-    , answer = []
-    }
+    let
+        sampleChallenge =
+            parseChallenge "100 80\n30 50\n130 75\n90 60\n150 85\n120 70\n200 200\n110 100"
+    in
+        { challenge = sampleChallenge
+        , answer = getAnswer sampleChallenge
+        }
 
 
 parseGoldilock : String -> Goldilock
