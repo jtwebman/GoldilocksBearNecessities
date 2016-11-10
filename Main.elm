@@ -44,7 +44,7 @@ sampleChallenge =
 
 parseGoldilock : String -> Goldilock
 parseGoldilock value =
-    case value.words of
+    case String.words value of
         [] ->
             { weight = 0, maxTemperature = 0 }
 
@@ -71,7 +71,7 @@ parseChairs chairValues =
 
 parseChair : String -> Chair
 parseChair chair =
-    case chair.words of
+    case String.words chair of
         [] ->
             { weightCapacity = 0, porridgeTemperature = 0 }
 
@@ -93,7 +93,7 @@ parseChair chair =
 
 parseChallenge : String -> String -> Challenge
 parseChallenge name values =
-    case values.lines of
+    case String.lines values of
         [] ->
             { name = name
             , goldilock = parseGoldilock ""
@@ -114,6 +114,4 @@ parseChallenge name values =
 
 
 main =
-    [ text "Hello, "
-    , text sampleChallenge.name
-    ]
+    text sampleChallenge.name
