@@ -2,7 +2,7 @@
 
 I am learning the Elm programming language. Here is my first Elm project based on the [Reddit Daily Programmer Challenge # 297](https://www.reddit.com/r/dailyprogrammer/comments/5bn0b7/20161107_challenge_291_easy_goldilocks_bear/) with tests.
 
-See it running here: [goldilocks-bear-necessities.netlify.com](http://goldilocks-bear-necessities.netlify.com/)
+See it running here: [goldilocks-bear-necessities.netlify.com](https://goldilocks-bear-necessities.netlify.com/)
 
 ## Challenge
 
