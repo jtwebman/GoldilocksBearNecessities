@@ -1,7 +1,14 @@
 module Main exposing (..)
 
-import Html exposing (text)
+import Html exposing (Html, button, div, text)
 import String
+import Array
+import Html.App as App
+
+
+main =
+    App.beginnerProgram { model = startingModel, view = view, update = update }
+
 
 
 -- MODEL
@@ -15,7 +22,8 @@ type alias Model =
 type alias Challenge =
     { name : String
     , goldilock : Goldilock
-    , chairs : List Chair
+    , chairs : List ( Int, Chair )
+    , answer : List Int
     }
 
 
@@ -39,7 +47,9 @@ startingModel =
 
 
 sampleChallenge =
-    parseChallenge "Sample" "100 80\n30 50\n130 75\n90 60\n150 85\n120 70\n200 200\n110 100"
+    "100 80\n30 50\n130 75\n90 60\n150 85\n120 70\n200 200\n110 100"
+        |> getChallenge "Sample"
+        |> getAnswer
 
 
 parseGoldilock : String -> Goldilock
@@ -64,9 +74,13 @@ parseGoldilock value =
             }
 
 
-parseChairs : List String -> List Chair
-parseChairs chairValues =
-    List.map parseChair chairValues
+parseChairs : List String -> List ( Int, Chair )
+parseChairs chairs =
+    chairs
+        |> List.map parseChair
+        |> Array.fromList
+        |> Array.toIndexedList
+        |> List.map (\( index, chair ) -> ( index + 1, chair ))
 
 
 parseChair : String -> Chair
@@ -91,27 +105,71 @@ parseChair chair =
             }
 
 
-parseChallenge : String -> String -> Challenge
-parseChallenge name values =
+getChallenge : String -> String -> Challenge
+getChallenge name values =
     case String.lines values of
         [] ->
             { name = name
             , goldilock = parseGoldilock ""
             , chairs = parseChairs []
+            , answer = []
             }
 
         [ goldilock ] ->
             { name = name
             , goldilock = parseGoldilock goldilock
             , chairs = parseChairs []
+            , answer = []
             }
 
         goldilock :: chairs ->
             { name = name
             , goldilock = parseGoldilock goldilock
             , chairs = parseChairs chairs
+            , answer = []
             }
 
 
-main =
-    text sampleChallenge.name
+getAnswer : Challenge -> Challenge
+getAnswer challenge =
+    { challenge | answer = getAnseerChairs challenge.goldilock challenge.chairs }
+
+
+getAnseerChairs : Goldilock -> List ( Int, Chair ) -> List Int
+getAnseerChairs goldilock chairs =
+    chairs
+        |> List.filter (chairValid goldilock)
+        |> List.map (\( index, chair ) -> index)
+
+
+chairValid : Goldilock -> ( Int, Chair ) -> Bool
+chairValid goldilock ( index, chair ) =
+    goldilock.weight
+        <= chair.weightCapacity
+        && goldilock.maxTemperature
+        >= chair.porridgeTemperature
+
+
+
+-- UPDATE
+
+
+type Msg
+    = FindChairs
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        FindChairs ->
+            model
+
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ div [] [ text (toString model) ] ]
